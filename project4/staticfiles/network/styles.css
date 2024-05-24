@@ -1,0 +1,46 @@
+a {
+    color: black;
+    text-decoration: none;
+}
+
+form p {
+    font-size: 21px;
+    font-weight: 400;
+   
+}
+
+#post_text {
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+p {
+    margin-bottom: 2px;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.date {
+    font-size: 12px;
+}
+
+.post {
+    font-size: 30px;
+}
+
+.user {
+   font-size: 27px;
+   padding-top: -10px;
+}
+
+button {
+    background-color: rgb(100, 179, 185);
+    border-radius: 5px;
+}
+
+.displayNav {
+    display: none;
+}
+

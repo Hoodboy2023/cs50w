@@ -1,0 +1,50 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div >
+    <div class="container">
+        <h1 class="mb-2">Posts</h1>
+      {% if user.is_authenticated %}
+      <form action="{% url 'posts' %}" class="mb-2" method="post">
+         {% csrf_token %}
+         <p class="mb-1"> What's new? </p>
+         <input class="w-50" name="content" id="post_text" type="text">
+         <button id="submit_post" type="submit">post</button>
+      </form>
+      {% endif %} 
+        {% for post in posts %}
+        <div class="mb-3">
+            <a href="{% url 'profile' post.owner.username %}"><p><strong>@{{post.owner.username}}</strong></p></a>
+            <a href="{% url 'post' post.id %}"><p>{{post.content}}</p>
+            <p class="date">{{post.date}}</p>
+            </a>
+            {% if user.is_authenticated %}
+            <div>
+            <svg id="{{post.id}}" onclick="displayComment(this)" class="mb-2 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-chat-fill" viewBox="0 0 16 16">
+              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+            </svg> 
+            
+            {% if user.username in post.liked_users %}
+            <svg id="{{post.id}}heart" onclick="heartColor(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+          </svg>
+          {% else %}
+          <svg id="{{post.id}}heart" onclick="heartColor(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+          </svg>
+           {% endif %}
+           <span onclick="addLikes(this)" class="text-center" id="{{post.id}}LIKE">{{post.get_likes}}</span>      
+          </div>
+            <form  id="{{post.id}}form" onsubmit="handleSubmit(event)" style="display: none" method="post">
+              {% csrf_token %}
+              <input id="{{post.id}}comment" type="text" placeholder="Comment" name="comment"></input>
+              <button type="Submit">send</button>
+            </form>
+          {% endif %}
+        </div>
+        <hr>
+        {% endfor %}
+
+      </div>
+</div>
+{% endblock %}

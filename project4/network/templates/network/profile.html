@@ -1,0 +1,120 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="container"> 
+    <a href="{% url 'profile' userr.username %}"><h1 class="mt-3">@{{userr.username}}</h1></a>
+    <nav class="nav nav-pills nav-justified mx-auto mb-3">
+        <a class="nav-link active" onclick="profileDisplay(this)" data="postss" href="#postss">Posts</a>
+        <a class="nav-link" onclick="profileDisplay(this)" data="commentss" href="#commentss">Comments</a>
+        <a class="nav-link" onclick="profileDisplay(this)" data="following" href="#following">Following</a>
+        <a class="nav-link" onclick="profileDisplay(this)" data="followers" href="#followers">Followers</a>
+        <a class="nav-link" onclick="profileDisplay(this)" data="likes" href="#likes">Likes</a>
+    </nav><hr>
+    <div id="postss" class="profileDIsplay">
+        {% for post in userr.get_posts %}
+        <div class="mb-3">
+            <a href="{% url 'profile' post.owner.username %}"><p><strong>@{{post.owner.username}}</strong></p></a>
+            <a href="{% url 'post' post.id %}"><p>{{post.content}}</p>
+            <p class="date">{{post.date}}</p>
+            </a>
+            <div>
+            <svg id="{{post.id}}" onclick="displayComment(this)" class="mb-2 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-chat-fill" viewBox="0 0 16 16">
+              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+            </svg> 
+        
+            {% if user.username in post.liked_users %}
+            <svg id="{{post.id}}heart" onclick="heartColor(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+            </svg>
+           {% else %}
+            <svg id="{{post.id}}heart" onclick="heartColor(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+           </svg>
+           {% endif %}
+           <span class="text-center" id="{{post.id}}LIKE">{{post.get_likes}}</span>   
+          </div>
+            <form  id="{{post.id}}form" onsubmit="handleSubmit(event)" style="display: none" method="post">
+              {% csrf_token %}
+              <input id="{{post.id}}comment" type="text" placeholder="Comment" name="comment"></input>
+              <button type="Submit">send</button>
+            </form>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+    <div id="commentss" class="profileDIsplay displayNav">
+        {% for comment in userr.get_comments %}
+        <div>
+          <a href="{% url 'profile' userr.username %}">
+          <p><strong>@{{comment.owner.username}}</strong></p></a>
+          <p>{{comment.comment}}</p>
+          <p class="date">{{comment.date}}</p>
+        </div>
+          <hr>
+        {% endfor %}
+    </div>
+    <div class="displayNav mt-3 profileDIsplay " id="following">
+      <div class="d-flex">
+      {% for followed_object in userr.get_following %}
+      <a href="{% url 'profile' followed_object.followed.username %}"><p class="me-2 user">@{{followed_object.followed.username}}</p></a><span>
+        {% if followed_object.followed.username in user.getFollowing %}
+        <button id="{{followed_object.followed.username}}" onclick="following(this)" class="mt-2">Following</button>
+        {% elif user.username == followed_object.followed.username %}
+    
+        {% else %}
+        <button id="{{followed_object.followed.username}}" onclick="following(this)" style="background-color: azure;" class="mt-2">Follow</button>
+        {% endif %}
+      </span>
+       <hr>
+      {% endfor %}
+      </div>
+    </div>
+    <div class=" displayNav mt-3 profileDIsplay " id="followers">
+      <div class="d-flex">
+      {% for follower_object in userr.get_followers %}
+      <a href="{% url 'profile' follower_object.follower.username %}"><p class="me-2 user">@{{follower_object.follower.username}}</p></a><span>
+        {% if follower_object.follower.username in user.getFollowing %}
+        <button id="{{follower_object.follower.username}}follower" onclick="following(this,true)" class="mt-2">Following</button>
+        {% elif user.username == follower_object.follower.username %}
+        {% else %}
+        <button id="{{follower_object.follower.username}}follower" onclick="following(this,true)" style="background-color: azure;" class="mt-2">Follow</button>
+        {% endif %}
+      </span>
+       <hr>
+      {% endfor %}
+      </div>
+    </div>
+    <div id="likes" class="profileDIsplay displayNav">
+      {% for like in userr.get_likes %}
+      <div class="mb-3">
+        <a href="{% url 'profile' like.post.owner.username %}"><p><strong>@{{like.post.owner.username}}</strong></p></a>
+        <a href="{% url 'post' like.post.id %}"><p>{{like.post.content}}</p>
+        <p class="date">{{post.date}}</p>
+        </a>
+        <div>
+        <svg id="{{like.post.id}}like" onclick="displayCommentLikes(this)" class="mb-2 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-chat-fill" viewBox="0 0 16 16">
+          <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+        </svg> 
+        
+        {% if user.username in like.post.liked_users %}
+        <svg id="{{like.post.id}}heartlike" onclick="heartColorlikes(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+        <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+      </svg>
+      {% else %}
+      <svg id="{{like.post.id}}heartlike" onclick="heartColorlikes(this)" class="ms-5 mb-1 icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-heart-fill" viewBox="0 0 16 16">
+        <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+      </svg>
+       {% endif %}
+       <span class="text-center" id="{{like.post.id}}likex">{{like.post.get_likes}}</span>         
+      </div>
+        <form  id="{{like.post.id}}formlike" onsubmit="handleSubmitlikes(event)" style="display: none" method="post">
+          {% csrf_token %}
+          <input id="{{like.post.id}}commentlike" type="text" placeholder="Comment" name="comment"></input>
+          <button type="Submit">send</button>
+        </form>
+    </div>
+    <hr>
+      {% endfor %} 
+    </div>
+</div>
+{% endblock %}

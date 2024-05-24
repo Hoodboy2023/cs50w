@@ -1,0 +1,20 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+   <div class="container">
+     <h1>Users</h1>
+     <hr>
+    {% for userr in users %}
+     <div class="d-flex mt-3">
+        <a href="{% url 'profile' userr.username %}"><p class="me-2 user">{{userr.username}}</p></a><span>
+            {% if userr.username in user.getFollowing %}
+            <button id="{{userr.username}}" onclick="following(this)" class="mt-2">Following</button>
+            {% else %}
+            <button id="{{userr.username}}" onclick="following(this)" style="background-color: azure;" class="mt-2">Follow</button>
+            {% endif %}
+        </span>
+     </div>
+     <hr>
+    {% endfor %}
+   </div>
+{% endblock %}

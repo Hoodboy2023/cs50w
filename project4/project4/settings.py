@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("debug")
 
-ALLOWED_HOSTS = os.environ.get("allowed_hosts")
+ALLOWED_HOSTS = os.environ.get("allowed_hosts").split(" ")
              
 
 # Application definition

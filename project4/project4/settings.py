@@ -115,7 +115,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Africa/kampala'
+TIME_ZONE = 'Africa/Kampala'
 
 USE_I18N = True
 

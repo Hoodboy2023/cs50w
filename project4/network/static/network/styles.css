@@ -1,8 +1,11 @@
-*{
-    color: white
-}
+
+
 body {
     background-color: rgb(5, 4, 4);
+    color: white
+}
+.likes {
+    font-size: 23.5px;
 }
 a {
     color: white;
@@ -65,8 +68,10 @@ button {
  }
 
  .likes {
-    font-size: 20px
-
+    position: relative;
+    top: -3.5px;
+    font-size: 18px;
+    margin-top: -80px;
  }
 
 }

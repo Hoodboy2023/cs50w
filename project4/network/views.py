@@ -72,7 +72,7 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
-        username = request.POST["username"]
+        username = request.POST["username"].strip()
         email = request.POST["email"]
 
         # Ensure password matches confirmation
@@ -180,8 +180,10 @@ def post_comments(request,):
 @csrf_exempt
 def following(request, username):
     if request.method == "POST":
+        print(username+" ")
         try:
             user= User.objects.get(username=username)
+            
         except:
             return JsonResponse({"message":"User does not exist"})
         is_follow_object = Following.objects.filter(followed=user, follower=request.user)
@@ -192,6 +194,7 @@ def following(request, username):
         else:
             is_follow_object.delete()
             return JsonResponse({"message": "User successfully unfollowed"}, status=200)
+        
     return JsonResponse({"message": "Error"}, status=200)    
 
 

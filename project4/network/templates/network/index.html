@@ -3,7 +3,7 @@
 {% block body %}
 <div >
     <div class="container">
-        <h1 class="mb-2">Posts</h1>
+        <h1 class="mb-2 mt-2">Posts</h1>
       {% if user.is_authenticated %}
       <form action="{% url 'posts' %}" class="mb-2" method="post">
          {% csrf_token %}
@@ -33,7 +33,7 @@
             <path  fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
           </svg>
            {% endif %}
-           <span onclick="addLikes(this)" class="text-center" id="{{post.id}}LIKE">{{post.get_likes}}</span>      
+           <span class="text-center" id="{{post.id}}LIKE">{{post.get_likes}}</span>      
           </div>
             <form  id="{{post.id}}form" onsubmit="handleSubmit(event)" style="display: none" method="post">
               {% csrf_token %}

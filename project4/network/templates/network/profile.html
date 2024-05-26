@@ -54,8 +54,9 @@
         {% endfor %}
     </div>
     <div class="displayNav mt-3 profileDIsplay " id="following">
-      <div class="d-flex">
+      
       {% for followed_object in userr.get_following %}
+      <div class="d-flex"> 
       <a href="{% url 'profile' followed_object.followed.username %}"><p class="me-2 user">@{{followed_object.followed.username}}</p></a><span>
         {% if followed_object.followed.username in user.getFollowing %}
         <button id="{{followed_object.followed.username}}" onclick="following(this)" class="mt-2">Following</button>
@@ -66,12 +67,14 @@
         {% endif %}
       </span>
        <hr>
-      {% endfor %}
       </div>
+      {% endfor %}
+     
     </div>
     <div class=" displayNav mt-3 profileDIsplay " id="followers">
-      <div class="d-flex">
+     
       {% for follower_object in userr.get_followers %}
+      <div class="d-flex">
       <a href="{% url 'profile' follower_object.follower.username %}"><p class="me-2 user">@{{follower_object.follower.username}}</p></a><span>
         {% if follower_object.follower.username in user.getFollowing %}
         <button id="{{follower_object.follower.username}}follower" onclick="following(this,true)" class="mt-2">Following</button>
@@ -79,10 +82,12 @@
         {% else %}
         <button id="{{follower_object.follower.username}}follower" onclick="following(this,true)" style="background-color: azure;" class="mt-2">Follow</button>
         {% endif %}
+
       </span>
        <hr>
-      {% endfor %}
       </div>
+      {% endfor %}
+     
     </div>
     <div id="likes" class="profileDIsplay displayNav">
       {% for like in userr.get_likes %}

@@ -1,5 +1,11 @@
+*{
+    color: white
+}
+body {
+    background-color: rgb(5, 4, 4);
+}
 a {
-    color: black;
+    color: white;
     text-decoration: none;
 }
 
@@ -38,9 +44,29 @@ p {
 button {
     background-color: rgb(100, 179, 185);
     border-radius: 5px;
+    color: black;
 }
 
 .displayNav {
     display: none;
 }
 
+.black {
+    color: black
+}
+
+.black:hover {
+    color: black;
+}
+
+@media (max-width: 720px) {
+ .body {
+    margin: 0px 10px;
+ }
+
+ .likes {
+    font-size: 20px
+
+ }
+
+}

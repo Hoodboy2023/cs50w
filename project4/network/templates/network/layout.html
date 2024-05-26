@@ -13,35 +13,35 @@
     <body>
 
         <nav class="nav navbar-light bg-light">
-            <a class="navbar-brand ms-2 mt-2" href="{% url 'index' %}">Social</a>
+            <a class="navbar-brand ms-2 mt-2 black" href="{% url 'index' %}">Social</a>
               <ul class="nav">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' user.username %}"><strong>Profile</strong></a>
+                        <a class="nav-link" href="{% url 'profile' user.username %}"><strong class="black">Profile</strong></a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index' %}">Posts</a>
+                  <a class="nav-link black" href="{% url 'index' %}">Posts</a>
                 </li>
               </ul>  
                 {% if user.is_authenticated %}
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users' %}">Users</a>
+                        <a class="nav-link black" href="{% url 'users' %}">Users</a>
                     </li>
                 </ul>
                 <ul class="nav ms-auto me-2">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        <a class="nav-link black" href="{% url 'logout' %}">Log Out</a>
                     </li>
                 </ul>   
                 {% else %}
                 <ul class="nav ms-auto me-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        <a class="nav-link black" href="{% url 'login' %}">Log In</a>
                     </li>
                     <li class="nav-item ml-auto">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-link black" href="{% url 'register' %}">Register</a>
                     </li>
                 </ul>    
                 {% endif %}
